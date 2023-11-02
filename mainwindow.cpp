@@ -6,8 +6,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->label_3->setCursor(QCursor(Qt::IBeamCursor));
-    ui->label_3->setTextInteractionFlags(Qt::TextSelectableByMouse);
 }
 
 MainWindow::~MainWindow()
@@ -21,10 +19,10 @@ void MainWindow::on_pushButton_clicked()
 
     str = QFileDialog::getOpenFileName(this, "Выбрать изображение", "C:\\",
                                        "PNG Image (*.png);; JPEG Image (*.jpg);");
-    changedimg_dir = (QCoreApplication::applicationDirPath().toStdString() + "/changed_img."+str.toStdString().substr(str.toStdString().length()-3));
     if (not str.isNull()) {
         try
         {
+            changedimg_dir = (QCoreApplication::applicationDirPath().toStdString() + "/changed_img.png");
             image.load(str.toStdString().c_str());
             pix.load(str);
             pixwidth = pix.width();
@@ -40,7 +38,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_doubleSpinBox_valueChanged(double arg1)
 {
-    if (not pix.isNull() /*and ((arg1 * ui->label->pixmap()->width()) < (ui->label->maximumWidth())) and ((arg1 * ui->label->pixmap()->height()) < (ui->label->maximumHeight()))*/) {
+    if (not pix.isNull() and (arg1 * ui->label->pixmap()->width() < 750) and (arg1 * ui->label->pixmap()->height() < 750)) {
         ui->label->setFixedWidth(arg1 * ui->label->pixmap()->width());
         ui->label->setFixedHeight(arg1 * ui->label->pixmap()->height());
     }
@@ -176,7 +174,7 @@ void MainWindow::on_pushButton_3_clicked()
             break;
         }
     }
-
+    //image.display();
     for (row; row < pixheight; row++) {
         for (column; column < pixwidth; column++) {
             if (i == messageLen) {
@@ -208,7 +206,10 @@ void MainWindow::on_pushButton_3_clicked()
         for (column; column < pixwidth; column++) {
             if (k == 3) {
                 image.save(changedimg_dir.c_str());
+                QMessageBox::information(this, "Выполнено", ("Файл изображения с закодированным сообщением сохранен в директории:\n"+changedimg_dir).c_str());
                 image.load(str.toStdString().c_str());
+                //changed_image.load(changedimg_dir.c_str());
+                //changed_image.display();
                 return;
             }
             else {
@@ -217,10 +218,8 @@ void MainWindow::on_pushButton_3_clicked()
             }
         }
     }
-    image.load(str.toStdString().c_str());
-    //CImg<unsigned char> changed_image("C:/Users/nikit/Desktop/chaged_img.png");
+    //image.load(str.toStdString().c_str());
 
-    //changed_image.display();
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -229,7 +228,7 @@ void MainWindow::on_pushButton_2_clicked()
         QMessageBox::critical(this, "Ошибка", "Сперва загрузите изображение!");
         return;
     }
-    //image.display();
+    //changed_image.display();
     int k = 0;
     int row = 0;
     int column = 0;
@@ -304,7 +303,6 @@ void MainWindow::on_pushButton_2_clicked()
     }
 
     QString qmessage = QString::fromStdString(message);
-    ui->label_3->setWordWrap(true);
-    ui->label_3->setText(qmessage);
+    ui->textEdit->setText(qmessage);
 
 }
