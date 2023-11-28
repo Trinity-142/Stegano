@@ -18,7 +18,7 @@ void MainWindow::on_pushButton_clicked()
 
 
     str = QFileDialog::getOpenFileName(this, "Выбрать изображение", "C:\\",
-                                       "PNG Image (*.png);; JPEG Image (*.jpg);");
+                                       "PNG Image (*.png);; JPEG Image (*.jpg);; BMP Image (*.bmp);; TIFF Image (*.tiff)");
     if (not str.isNull()) {
         try
         {
@@ -125,7 +125,7 @@ void MainWindow::on_pushButton_3_clicked()
         return;
     }
     //image.display();
-    int step = ui->spinBox->value();
+    step = ui->spinBox->value();
     int messageLen = ui->lineEdit->text().length();
     int max_messageLen = (pixwidth * pixheight - 9) / (step + 3);
     int k = 0;
@@ -154,7 +154,7 @@ void MainWindow::on_pushButton_3_clicked()
     for (row = 0; row < pixheight; row++) {
         for (column = 0; column < pixwidth; column++) {
 
-            if (k == 6) {
+            if (k == 3) {
                 k++;
                 break;
             }
@@ -162,12 +162,12 @@ void MainWindow::on_pushButton_3_clicked()
                 BitsSwap(column, row, (k - 3 * (k / 3) + 1), (int)'/');
                 k++;
             }
-            else if (k > 2 and k <= 5) {
-                BitsSwap(column, row, (k - 3 * (k / 3) + 1), step);
-                k++;
-            }
+            //else if (k > 2 and k <= 5) {
+                //BitsSwap(column, row, (k - 3 * (k / 3) + 1), step);
+                //k++;
+            //}
         }
-        if (k == 7){
+        if (k == 4){
             k = 0;
             i = k / 3;
             ost = step;
@@ -205,6 +205,7 @@ void MainWindow::on_pushButton_3_clicked()
     for (row; row < pixheight; row++) {
         for (column; column < pixwidth; column++) {
             if (k == 3) {
+                //image.display();
                 image.save(changedimg_dir.c_str());
                 QMessageBox::information(this, "Выполнено", ("Файл изображения с закодированным сообщением сохранен в директории:\n"+changedimg_dir).c_str());
                 image.load(str.toStdString().c_str());
@@ -225,10 +226,11 @@ void MainWindow::on_pushButton_3_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     if (pix.isNull()){
-        QMessageBox::critical(this, "Ошибка", "Сперва загрузите изображение!");
+        QMessageBox::critical(this, "", "");
         return;
     }
     //changed_image.display();
+    step = ui->spinBox->value();
     int k = 0;
     int row = 0;
     int column = 0;
@@ -241,8 +243,8 @@ void MainWindow::on_pushButton_2_clicked()
 
     for (row = 0; row < pixheight; row++) {
         for (column = 0; column < pixwidth; column++) {
-            if (k == 6) {
-                step = BinToDec(step_);
+            if (k == 3) {
+                //step = BinToDec(step_);
                 k++;
                 break;
             }
@@ -250,21 +252,21 @@ void MainWindow::on_pushButton_2_clicked()
             if (k <= 2) {
                 key = GetBits(column, row, (k - 3 * (k / 3) + 1), key);
                 if (k == 2 and key != ToBinary((int)'/', 10)) {
-                    QMessageBox::critical(this, "Ошибка", "В изображение не закодировано сообщение!");
+                    QMessageBox::critical(this, "Ошибка", "В изображение не закодировано сообщение");
                     return;
                 };
                 k++;
             }
 
-            else if (k > 2 and k <= 5) {
-                step_ = GetBits(column, row, (k - 3 * (k / 3) + 1), step_);
-                k++;
-            }
+            //else if (k > 2 and k <= 5) {
+                //step_ = GetBits(column, row, (k - 3 * (k / 3) + 1), step_);
+                //k++;
+            //}
         }
         //if (k == 2 and key != ToBinary((int)'/', 10)) {
             //break;
         //}
-        if (k == 7) {
+        if (k == 4) {
             k = 0;
             i = k / 3;
             ost = step;

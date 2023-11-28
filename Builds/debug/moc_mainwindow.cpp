@@ -91,6 +91,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 1: _t->on_doubleSpinBox_valueChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
         case 2: _t->on_pushButton_3_clicked(); break;
         case 3: _t->on_pushButton_2_clicked(); break;
+        //case 4: _t->on_label_3_customContextMenuRequested((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         default: ;
         }
     }
