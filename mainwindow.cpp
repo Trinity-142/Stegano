@@ -34,6 +34,10 @@ void MainWindow::on_pushButton_clicked()
             QMessageBox::critical(this, "Ошибка", "Директория файла должна содержать только латинские символы!");
         }
     }
+    else {
+        image.clear();
+        ui->label->clear();
+    }
 }
 
 void MainWindow::on_doubleSpinBox_valueChanged(double arg1)
@@ -120,7 +124,7 @@ int BinToDec(string val) {
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    if (pix.isNull()){
+    if (pix.isNull() or str.isNull()){
         QMessageBox::critical(this, "Ошибка", "Сперва загрузите изображение!");
         return;
     }
@@ -225,8 +229,8 @@ void MainWindow::on_pushButton_3_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    if (pix.isNull()){
-        QMessageBox::critical(this, "", "");
+    if (pix.isNull() or str.isNull()){
+        QMessageBox::critical(this, "Ошибка", "Сперва загрузите изображение!");
         return;
     }
     //changed_image.display();
