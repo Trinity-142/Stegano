@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    w.setWindowTitle("Stegano");
+    w.setWindowTitle("Stegano Hider");
     w.show();
     return a.exec();
 }

@@ -26,6 +26,8 @@ HEADERS += \
 FORMS += \
     mainwindow.ui
 
+win32:RC_FILE = file.rc
+
 LIBS += C:\Users\nikit\Desktop\Stegano\libgdi32.a
 
 # Default rules for deployment.
